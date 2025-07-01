@@ -6,12 +6,12 @@ An interactive and visually engaging quiz that tests your cybersecurity awarenes
 
 ## 🚀 Features
 
-- ⚡ 20 curated cybersecurity questions  
-- ⏱️ 15-second countdown timer per question  
-- 🔊 Sound effects for correct, wrong, and timeout  
-- ✅ Instant feedback and score tracking  
-- 🧠 Fun "Did You Know?" facts based on real cyber incidents (e.g., Facebook, Instagram)  
-- 🎖️ Score-based titles: *Cyber Guardian*, *Security Apprentice*, *Newbie Hacker Bait*  
+- 20 curated cybersecurity questions  
+- 15-second countdown timer per question  
+- Sound effects for correct, wrong, and timeout  
+- Instant feedback and score tracking
+- Fun "Did You Know?" facts based on real cyber incidents (e.g., Facebook, Instagram)  
+- Score-based titles: *Cyber Guardian*, *Security Apprentice*, *Newbie Hacker Bait*  
 
 ---
 
@@ -25,8 +25,6 @@ An interactive and visually engaging quiz that tests your cybersecurity awarenes
 - Optional: GitHub Pages for deployment
 
 ---
-
-## 📸 Sample Output
 
 ## 📸 Sample Output
 
