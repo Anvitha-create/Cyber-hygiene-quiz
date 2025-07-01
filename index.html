@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Hygiene Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle, #010a10, #000);
+      color: #0ff; text-align: center;
+    }
+    #instructions {
+      font-family: monospace;
+      color: lime;
+      white-space: pre-line;
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+      display: none;
+    }
+    h1 {
+      animation: glitch 1s infinite;
+    }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red; }
+      50% { text-shadow: -2px 0 lime; }
+      100% { text-shadow: 2px 0 blue; }
+    }
+    #progress-bar {
+      background: #333;
+      height: 12px;
+      margin: 1rem 0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #progress {
+      height: 100%;
+      background: #0f0;
+      width: 0%;
+      transition: 0.4s;
+    }
+    .option-btn {
+      padding: 10px 20px;
+      margin: 10px;
+      border: 1px solid #0ff;
+      color: #0ff;
+      background: transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .option-btn:hover {
+      background: #0ff2;
+    }
+    #next-btn {
+      margin-top: 1rem;
+      padding: 0.7rem 2rem;
+      background: #0f0;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+    #fact-box {
+      font-style: italic;
+      color: #ffa;
+      margin: 1rem 0;
+    }
+    #result-box {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+    #badge-section {
+      color: gold;
+      margin-top: 1rem;
+    }
+    #timer {
+      font-size: 1.2rem;
+      margin: 10px;
+      display: none;
+    }
+    #start-btn {
+      background: #0ff;
+      color: #000;
+      border: none;
+      padding: 10px 30px;
+      font-weight: bold;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="instructions">
+  <h1>🛡️ Cyber Hygiene Quiz</h1>
+  <p>
+  📜 Instructions:
+  - You have 15 seconds per question  
+  - Select the correct option before time runs out  
+  - Get ready to test your cybersecurity knowledge!  
+  </p>
+  <button id="start-btn">Start Quiz</button>
+</div>
+
+<div class="container" id="quiz">
+  <h1>🧠 Cyber Hygiene Quiz</h1>
+  <div id="progress-bar"><div id="progress"></div></div>
+  <div id="timer">⏱️</div>
+  <h2 id="question-box">Loading...</h2>
+  <div id="options-box"></div>
+  <p id="fact-box">💡 Stay smart, stay secure!</p>
+  <button id="next-btn" disabled>Next</button>
+  <div id="result-box"></div>
+  <div id="badge-section"></div>
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+  <audio id="alert-sound" src="https://www.soundjay.com/button/sounds/beep-07.mp3"></audio>
+</div>
+
+<script>
+const questions = [
+  { question: "What does 2FA stand for?", options: ["Two-Factor Authentication", "Firewall", "Spam Blocker", "Secure Form Access"], answer: 0, fact: "2FA adds an extra layer of protection." },
+  { question: "Which is a strong password?", options: ["123456", "qwerty", "abc123", "Xy7!2@#9"], answer: 3, fact: "Use upper/lowercase, symbols & numbers." },
+  { question: "What is phishing?", options: ["Free software", "Fake emails to steal data", "Cloud backup", "Encryption"], answer: 1, fact: "Phishing tricks users via fake links." },
+  { question: "Why use antivirus software?", options: ["Slow PC", "Boost speed", "Detect malware", "Play games"], answer: 2, fact: "Antivirus scans & removes threats." },
+  { question: "What does HTTPS mean?", options: ["HyperText Transfer", "Hyper Trusted", "Secure connection", "Heavy Transfer"], answer: 2, fact: "S = Secure via encryption." },
+  { question: "What is a VPN used for?", options: ["Browsing anonymously", "Gaming", "Battery saver", "Update software"], answer: 0, fact: "VPN hides your IP & encrypts traffic." },
+  { question: "Which file is suspicious?", options: ["report.docx", "slide.pptx", "image.jpg", "file.exe"], answer: 3, fact: ".exe can execute malware." },
+  { question: "Why avoid public Wi-Fi?", options: ["Slow", "Low signal", "Battery drain", "Security risks"], answer: 3, fact: "Hackers can intercept data on public Wi-Fi." },
+  { question: "What is ransomware?", options: ["Game", "Virus demanding money", "Antivirus", "Backup"], answer: 1, fact: "Ransomware locks your files for money." },
+  { question: "How often to update passwords?", options: ["Never", "Once in 10 years", "Every few months", "Daily"], answer: 2, fact: "Update regularly to stay secure." },
+  { question: "What’s shoulder surfing?", options: ["Typing fast", "Looking at someone typing password", "Game", "Backup"], answer: 1, fact: "Watch out in public places." },
+  { question: "Safe practice online?", options: ["Use same password", "Click pop-ups", "Avoid updates", "Use 2FA"], answer: 3, fact: "2FA gives you extra security." },
+  { question: "What is spyware?", options: ["Security app", "Tracking software", "Game", "Backup"], answer: 1, fact: "Spyware steals your data silently." },
+  { question: "How to verify link safety?", options: ["Click it", "Guess", "Hover to preview", "Trust friend"], answer: 2, fact: "Hover shows real URL." },
+  { question: "What is encryption?", options: ["Scrambling data", "Deleting", "Speeding", "Copying"], answer: 0, fact: "Encryption hides sensitive info." },
+  { question: "After using public PC?", options: ["Leave tab open", "Stay logged in", "Log out", "Install apps"], answer: 2, fact: "Log out to protect your account." },
+  { question: "Best place for password storage?", options: ["Sticky note", "Google Doc", "Password manager", "Memory"], answer: 2, fact: "Use a secure password manager." },
+  { question: "What's a firewall?", options: ["Antivirus", "Network filter", "Game", "Data breach"], answer: 1, fact: "Firewalls block suspicious traffic." },
+  { question: "What does backup mean?", options: ["Delete files", "Duplicate data", "Encrypt files", "Burn CD"], answer: 1, fact: "Backups recover data during loss." },
+  { question: "Example of cyber attack?", options: ["Update", "Brute-force", "Password reset", "Firewall"], answer: 1, fact: "Brute force tries all passwords." }
+];
+
+let current = 0, score = 0, timer;
+const qBox = document.getElementById("question-box");
+const oBox = document.getElementById("options-box");
+const fBox = document.getElementById("fact-box");
+const rBox = document.getElementById("result-box");
+const badge = document.getElementById("badge-section");
+const progress = document.getElementById("progress");
+const timerBox = document.getElementById("timer");
+const nextBtn = document.getElementById("next-btn");
+
+document.getElementById("start-btn").onclick = () => {
+  document.getElementById("instructions").style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  showQuestion();
+};
+
+function showQuestion() {
+  clearInterval(timer);
+  timerBox.style.display = "block";
+  nextBtn.disabled = true;
+  nextBtn.style.opacity = 0.5;
+  let q = questions[current];
+  qBox.textContent = q.question;
+  let timeLeft = 15;
+  timerBox.textContent = `⏱️ ${timeLeft}s`;
+  let countdown = timeLeft;
+  timer = setInterval(() => {
+    countdown--;
+    timerBox.textContent = `⏱️ ${countdown}s`;
+    if (countdown <= 0) {
+      clearInterval(timer);
+      document.getElementById("alert-sound").play();
+      fBox.textContent = `⏰ Time’s up! Correct: ${q.options[q.answer]} — ${q.fact}`;
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = 1;
+      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
+    }
+  }, 1000);
+  oBox.innerHTML = "";
+  fBox.textContent = "💡 Stay smart, stay secure!";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = opt;
+    btn.onclick = () => {
+      clearInterval(timer);
+      if (i === q.answer) {
+        score++;
+        document.getElementById("correct-sound").play();
+        fBox.textContent = `✅ Correct! ${q.fact}`;
+      } else {
+        document.getElementById("wrong-sound").play();
+        fBox.textContent = `❌ Wrong! Correct: ${q.options[q.answer]} — ${q.fact}`;
+      }
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = 1;
+      document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
+    };
+    oBox.appendChild(btn);
+  });
+  progress.style.width = `${(current / questions.length) * 100}%`;
+}
+
+nextBtn.onclick = () => {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    finishQuiz();
+  }
+};
+
+function finishQuiz() {
+  clearInterval(timer);
+  timerBox.style.display = "none";
+  qBox.textContent = "Quiz Complete!";
+  oBox.innerHTML = "";
+  nextBtn.style.display = "none";
+  rBox.textContent = `🎯 You scored ${score}/20`;
+
+  if (score >= 15) badge.textContent = "🏆 Title: Cyber Guardian";
+  else if (score >= 10) badge.textContent = "🔐 Title: Security Apprentice";
+  else badge.textContent = "🐣 Title: Newbie Hacker Bait";
+
+  const cyberFacts = [
+    "💥 In 2019, over 530 million Facebook users' phone numbers were leaked online.",
+    "📸 Instagram was hacked in 2017, exposing personal data of celebrities.",
+    "📱 WhatsApp had a major spyware vulnerability exploited via missed calls in 2019.",
+    "🔐 In 2021, LinkedIn data of over 700 million users appeared on a hacking forum.",
+    "🛍️ An Amazon S3 bucket misconfiguration exposed sensitive data of users in 2020.",
+    "📢 Twitter accounts of celebrities were hacked in 2020 for Bitcoin scams.",
+    "🎮 A massive leak exposed Twitch's entire source code and payouts in 2021.",
+    "🎯 YouTube faced a phishing campaign that took over creators’ channels.",
+    "🌐 Zoom had security flaws during the pandemic exposing call data.",
+    "📬 Gmail users were targeted with fake Google Docs phishing scams."
+  ];
+
+  const shuffled = cyberFacts.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, 5);
+  const factsHTML = selected.map(fact => `<li>${fact}</li>`).join("");
+  badge.innerHTML += `<ul style="text-align:left; margin-top:1rem;">${factsHTML}</ul>`;
+}
+</script>
+</body>
+</html>
