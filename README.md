@@ -12,7 +12,6 @@ An interactive and visually engaging quiz that tests your cybersecurity awarenes
 - ✅ Instant feedback and score tracking  
 - 🧠 Fun "Did You Know?" facts based on real cyber incidents (e.g., Facebook, Instagram)  
 - 🎖️ Score-based titles: *Cyber Guardian*, *Security Apprentice*, *Newbie Hacker Bait*  
-- 🔁 Restartable game with animated glitch title and clean design
 
 ---
 
