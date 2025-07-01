@@ -27,4 +27,18 @@ An interactive and visually engaging quiz that tests your cybersecurity awarenes
 
 ---
 
-## 📷 Sample Output
+## 📸 Sample Output
+
+## 📸 Sample Output
+
+### 🔹 Start Screen
+![Start Screen](ss.jpg)
+
+### ✅ Right Answer Selected
+![Right Answer](1.jpg)
+
+### ❌ Wrong Answer Selected
+![Wrong Answer](2.jpg)
+
+### 🏁 Final Score with Cyber Facts
+![Final Score](3.jpg)
