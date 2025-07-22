@@ -1,6 +1,6 @@
 # 🛡️ Cyber Hygiene Quiz
 
-An interactive and visually engaging quiz that tests your cybersecurity awareness buiilt with HTML, CSS, and JavaScript.
+An interactive and visually engaging quiz that tests your cybersecurity awareness buiilt with HTML, CSS and JavaScript.
 
 ---
 
